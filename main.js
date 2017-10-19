@@ -6,8 +6,8 @@ $(function(){
 
 function generateGrid(){
 	$(".tiles").html("");
-	var x = $("#x").val();
-	var y = $("#y").val();
+	var x = 16;
+	var y = 16;
 
 	for(var i = 0; i < x; i++){
 		var row = $('<div class = "row">');

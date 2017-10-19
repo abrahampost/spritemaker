@@ -15,17 +15,17 @@
 			<div class = "tiles">
 			</div>
 			<h2>Enter the dimensions of the sprite below</h2>
-			<form action = "javascript:colorBoard()">
+			<form action = "javascript:;" onsubmit="colorBoard()">
 				<input type = "color" id = "colorizer" value = "#0000ff">
 				<button>Color Entire Board</button>
 			</form>
-			<form action = "javascript:generateGrid()">
+			<form action = "javascript:;" onsubmit = "generateGrid()">
 				<input = "number" id = "x" value = 16>
 				<input = "number" id = "y" value = 16>
 				<button>Generate Grid</button>
 			</form> 
 			<textarea readonly id = "bitmap"></textarea>
-			<form action = "javascript:generateBitmap()">
+			<form action = "javascript:;" onsubmit="generateBitmap()">
 				<button>Generate Bitmap</button>
 			</form>
 			<button id = "copy">Copy to Clipboard</button>

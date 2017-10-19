@@ -1,0 +1,41 @@
+html, body{
+	color: black;
+	margin: 0;
+	font-family: "Montserrat", "Avenir";
+}
+
+form {
+	margin: 10px;
+}
+.content {
+	max-width: 600px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.tiles {
+	overflow: auto;
+	margin: 0 auto;
+	margin-left: 20px;
+}
+
+.row {
+	width: 80%;
+	display: block !important;
+	margin: 0 auto;
+	overflow: auto;
+}
+
+.tile {
+	z-index: 1;
+	width: 25px;
+	height: 25px;
+	margin: 1px;
+	border: 1px rgba(0,0,0,0);
+	background-color: blue;
+	float: left;
+}
+
+#colorizer {
+	margin: 10px;
+}

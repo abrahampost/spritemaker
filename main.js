@@ -12,7 +12,7 @@ function generateGrid(){
 	for(var i = 0; i < x; i++){
 		var row = $('<div class = "row">');
 		for(var j = 0; j < y; j++){
-			$(row).append('\t<div class = "tile"></div>')
+			$(row).append('\t<div class = "tile border"></div>')
 		}
 		$(".tiles").append(row);
 	}
@@ -51,7 +51,7 @@ function colorBoard(){
 	$(".tile").css("background-color", color);
 }
 
-function generateBitmap(){
+function generateHexCodes(){
 	var tiles = $(".tile");
 	var bitmap = "";
 	for(var i = 0; i < tiles.length - 1; i++){
@@ -70,4 +70,8 @@ function convertFromRGB(color){
 	hex = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd' ,'e', 'f'];
 	code = hex[parseInt(red / 16)] + hex[parseInt(green / 16)] + hex[parseInt(blue / 16)];
 	return code;
+}
+
+function toggleBorder(){
+	$(".tile").toggleClass("border");
 }

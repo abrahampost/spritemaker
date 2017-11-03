@@ -30,10 +30,13 @@ form {
 	z-index: 1;
 	width: 25px;
 	height: 25px;
-	margin: 1px;
 	border: 1px rgba(0,0,0,0);
 	background-color: blue;
 	float: left;
+}
+
+.border {
+	border: 1px solid black;
 }
 
 #colorizer {

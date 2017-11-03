@@ -14,16 +14,20 @@
 			<h1>16x16 Sprite Generator for Comp 541</h1>
 			<div class = "tiles">
 			</div>
-			<h2>Enter the dimensions of the sprite below</h2>
+			<p>Just click on the board to color it with whatever color is currently selected</p>
 			<form action = "javascript:;" onsubmit="colorBoard()">
+				<label>Select Color</label>
 				<input type = "color" id = "colorizer" value = "#0000ff">
 				<button>Color Entire Board</button>
 			</form>
 			<textarea readonly id = "bitmap"></textarea>
-			<form action = "javascript:;" onsubmit="generateBitmap()">
-				<button>Generate Bitmap</button>
+			<form action = "javascript:;" onsubmit="generateHexCodes()">
+				<button>Generate hexcodes</button>
 			</form>
 			<button id = "copy">Copy to Clipboard</button>
+			<form action = "javascript:;" onsubmit="toggleBorder()">
+				<button>Toggle Border</button>
+			</form>
 		</div>
 	</body>
 </html>

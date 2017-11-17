@@ -2,7 +2,7 @@ var isDown = false;
 selecting = false;
 var bitmap;
 
-$(function(){
+$(function() {
 	bitmap = $("#bitmap");
 	generateGrid();
 	generateHexCodes();
@@ -12,12 +12,12 @@ $(function(){
 
 });
 
-function copy(){
+function copy() {
 	bitmap.select();
 	document.execCommand('copy');
 }
 
-function load(){
+function load() {
 	var bitmapValues = bitmap.val();
 	var hexcodes = bitmapValues.split("\n");
 	if(hexcodes.length != 256){ 
@@ -39,28 +39,28 @@ function load(){
 	}
 }
 
-function generateGrid(){
+function generateGrid() {
 	$(".tiles").html("");
 	var x = 16;
 	var y = 16;
 
-	for(var i = 0; i < x; i++){
+	for(var i = 0; i < x; i++) {
 		var row = $('<div class = "row">');
-		for(var j = 0; j < y; j++){
+		for(var j = 0; j < y; j++) {
 			$(row).append('\t<div class = "tile border"></div>')
 		}
 		$(".tiles").append(row);
 	}
 
-	$(".tile").mousedown(function(){
+	$(".tile").mousedown(function() {
 		isDown = true;
 	});
 
-	$(document).mouseup(function(){
+	$(document).mouseup(function() {
 		isDown = false;
 	});
 
-	$(".tile").on("mousedown", function(){
+	$(".tile").on("mousedown", function() {
 		if(selecting){
 			var color = colorToHex($(this).css("background-color"));
 			$("#colorizer").val(color);
@@ -72,12 +72,12 @@ function generateGrid(){
 		$(this).css("background-color", color);
 	});
 
-	$(".tile").on("mouseover", function(){
+	$(".tile").on("mouseover", function() {
 		var color = $("#colorizer").val();
-		if(isDown){
+		if(isDown) {
 			$(this).css("background-color", color);
 		}
-		if(selecting){
+		if(selecting) {
 			$(".tiles").css("cursor", "crosshair");
 		}
 	});

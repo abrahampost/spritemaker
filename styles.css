@@ -39,6 +39,17 @@ form {
 	border: 1px solid black;
 }
 
+.buttons button{
+	margin: 10px auto;
+	display: block;
+}
+
 #colorizer {
 	margin: 10px;
+}
+
+#bitmap{
+	height: 150px;
+	width: 75px;
+	resize: none;
 }

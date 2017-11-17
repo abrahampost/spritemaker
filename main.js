@@ -1,41 +1,43 @@
 var isDown = false;
 selecting = false;
+var bitmap;
 
 $(function(){
+	bitmap = $("#bitmap");
 	generateGrid();
 	generateHexCodes();
-	var bitmap = $("#bitmap");
-	$("#copy").on("click",function(){
-    	bitmap.select();
-   		document.execCommand('copy');
-	});
-
-	$("#load").on("click", function(){
-		var bitmapValues = bitmap.val();
-		var hexcodes = bitmapValues.split("\n");
-		if(hexcodes.length != 256){ 
-			alert("Invalid number of lines. Found " + hexcodes.length + ", expected 256");
-			return;
-		}
-		var tiles = $(".tile");
-		for(var i = 0; i < tiles.length; i++){
-			var hexcode = "#";
-			if(hexcodes[i].length != 3){
-				alert("Invalid hexcode at line " + (i + 1));
-				return;
-			}
-			for(var j = 0; j < 3; j++){
-				hexcode += hexcodes[i][j];
-				hexcode += hexcodes[i][j];
-			}
-			$(tiles[i]).css("background-color", hexcode);
-		}
-	});
 	$("#eyedropper").on("click", function(){
 		selecting = true;
 	});
 
 });
+
+function copy(){
+	bitmap.select();
+	document.execCommand('copy');
+}
+
+function load(){
+	var bitmapValues = bitmap.val();
+	var hexcodes = bitmapValues.split("\n");
+	if(hexcodes.length != 256){ 
+		alert("Invalid number of lines. Found " + hexcodes.length + ", expected 256");
+		return;
+	}
+	var tiles = $(".tile");
+	for(var i = 0; i < tiles.length; i++){
+		var hexcode = "#";
+		if(hexcodes[i].length != 3){
+			alert("Invalid hexcode at line " + (i + 1));
+			return;
+		}
+		for(var j = 0; j < 3; j++){
+			hexcode += hexcodes[i][j];
+			hexcode += hexcodes[i][j];
+		}
+		$(tiles[i]).css("background-color", hexcode);
+	}
+}
 
 function generateGrid(){
 	$(".tiles").html("");

@@ -23,14 +23,12 @@
 				<button>Color Entire Board</button>
 			</form>
 			<textarea id = "bitmap"></textarea>
-			<form action = "javascript:;" onsubmit="generateHexCodes()">
-				<button>Generate hexcodes</button>
-			</form>
-			<button id = "copy">Copy to Clipboard</button>
-			<button id = "load">Load from Textarea</button>
-			<form action = "javascript:;" onsubmit="toggleBorder()">
-				<button>Toggle Border</button>
-			</form>
+			<div class = "buttons">
+				<button onclick="generateHexCodes()">Generate hexcodes</button>
+				<button onclick="copy()">Copy to Clipboard</button>
+				<button onclick="load()">Load from Textarea</button>
+				<button onclick="toggleBorder()">Toggle Border</button>
+			</div>
 		</div>
 	</body>
 </html>

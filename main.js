@@ -32,6 +32,9 @@ $(function() {
 		}
 		var color = $("#colorizer").val();
 		$(this).css("background-color", color);
+		if($("#liveUpdate")[0].checked){
+			fillBitmap();
+		}
 	});
 
 	$(".tile").on("mouseover", function() {
@@ -41,6 +44,9 @@ $(function() {
 		}
 		if(selecting) {
 			$(".tiles").css("cursor", "crosshair");
+		}
+		if($("#liveUpdate")[0].checked){
+			fillBitmap();
 		}
 	});
 

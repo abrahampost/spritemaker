@@ -15,8 +15,8 @@
 			<h1>16x16 Sprite Generator for Comp 541</h1>
 			<div class = "tiles">
 			</div>
-			<button onclick="undo()" style="margin-top:5px">Undo</button>
-			<p>Just click on the board to color it with whatever color is currently selected</p>
+			<button onclick="undo()" style="margin-top:5px">Undo</button><br>
+			Just click on the board to color it with with whatever color is currently selected
 			<div>
 				<label>Select Color</label>
 				<i class="fa fa-eyedropper" aria-hidden="true" id = "eyedropper"></i>
@@ -24,6 +24,10 @@
 				<button onclick="colorBoard()">Color Entire Board</button>
 			</div>
 			<textarea id = "bitmap"></textarea>
+			<div>
+				<label>Live update of Hexcodes</label>
+				<input id="liveUpdate" type="checkbox">
+			</div>
 			<div class = "buttons">
 				<button onclick="fillBitmap()">Generate hexcodes</button>
 				<button onclick="copy()">Copy to Clipboard</button>

@@ -50,6 +50,13 @@ $(function() {
 		}
 	});
 
+	$("#colorizer").on("click", function(){
+		if(selecting){
+			selecting = false;
+			$(".tiles").css("cursor", "default");
+		}
+	});
+
 });
 
 function copy() {

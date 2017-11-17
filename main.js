@@ -52,7 +52,9 @@ function copy() {
 }
 
 function load(prev) {
-	$("#bitmap").val(prev);
+	if(prev){
+		$("#bitmap").val(prev);
+	}
 	var bitmapValues = $("#bitmap").val();
 	var hexcodes = bitmapValues.split("\n");
 	if(hexcodes.length != 256){ 
@@ -89,8 +91,10 @@ function generateGrid() {
 }
 
 function colorBoard(){
+	hist.push(generateHexCodes());
 	var color = $("#colorizer").val();
 	$(".tile").css("background-color", color);
+	fillBitmap();
 }
 
 function fillBitmap(){

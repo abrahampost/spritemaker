@@ -1,24 +1,59 @@
 var isDown = false;
 selecting = false;
 var bitmap;
+var hist = new Array();
 
 $(function() {
 	bitmap = $("#bitmap");
 	generateGrid();
-	generateHexCodes();
+	fillBitmap();
 	$("#eyedropper").on("click", function(){
 		selecting = true;
+	});
+	$(".tile").mousedown(function() {
+		isDown = true;
+	});
+
+	$(document).mouseup(function() {
+		isDown = false;
+	}); 
+
+	$(".tile").on("mousedown", function() {
+		if(selecting){
+			var color = colorToHex($(this).css("background-color"));
+			$("#colorizer").val(color);
+			selecting = false;
+			$(".tiles").css("cursor", "default")
+			return;
+		}
+		hist.push(generateHexCodes());
+		if(hist.length > 20){
+			hist.shift();
+		}
+		var color = $("#colorizer").val();
+		$(this).css("background-color", color);
+	});
+
+	$(".tile").on("mouseover", function() {
+		var color = $("#colorizer").val();
+		if(isDown) {
+			$(this).css("background-color", color);
+		}
+		if(selecting) {
+			$(".tiles").css("cursor", "crosshair");
+		}
 	});
 
 });
 
 function copy() {
-	bitmap.select();
+	$("#bitmap").select();
 	document.execCommand('copy');
 }
 
-function load() {
-	var bitmapValues = bitmap.val();
+function load(prev) {
+	$("#bitmap").val(prev);
+	var bitmapValues = $("#bitmap").val();
 	var hexcodes = bitmapValues.split("\n");
 	if(hexcodes.length != 256){ 
 		alert("Invalid number of lines. Found " + hexcodes.length + ", expected 256");
@@ -51,41 +86,16 @@ function generateGrid() {
 		}
 		$(".tiles").append(row);
 	}
-
-	$(".tile").mousedown(function() {
-		isDown = true;
-	});
-
-	$(document).mouseup(function() {
-		isDown = false;
-	});
-
-	$(".tile").on("mousedown", function() {
-		if(selecting){
-			var color = colorToHex($(this).css("background-color"));
-			$("#colorizer").val(color);
-			selecting = false;
-			$(".tiles").css("cursor", "default")
-			return;
-		}
-		var color = $("#colorizer").val();
-		$(this).css("background-color", color);
-	});
-
-	$(".tile").on("mouseover", function() {
-		var color = $("#colorizer").val();
-		if(isDown) {
-			$(this).css("background-color", color);
-		}
-		if(selecting) {
-			$(".tiles").css("cursor", "crosshair");
-		}
-	});
 }
 
 function colorBoard(){
 	var color = $("#colorizer").val();
 	$(".tile").css("background-color", color);
+}
+
+function fillBitmap(){
+	bitmap = generateHexCodes();
+	$("#bitmap").val(bitmap);
 }
 
 function generateHexCodes(){
@@ -96,7 +106,7 @@ function generateHexCodes(){
 		bitmap += convertFromRGB(color) + "\n";
 	}
 	bitmap += convertFromRGB($(tiles[tiles.length - 1]).css("background-color"));
-	$("#bitmap").val(bitmap);
+	return bitmap;
 }
 
 function convertFromRGB(color){
@@ -124,3 +134,11 @@ function colorToHex(color) {
     })
     return hex;
 };
+
+function undo(){
+	if(hist.length == 0){
+		return;
+	}
+	prev = hist.pop();
+	load(prev);
+}

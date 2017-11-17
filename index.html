@@ -15,20 +15,21 @@
 			<h1>16x16 Sprite Generator for Comp 541</h1>
 			<div class = "tiles">
 			</div>
+			<button onclick="undo()" style="margin-top:5px">Undo</button>
 			<p>Just click on the board to color it with whatever color is currently selected</p>
-			<form action = "javascript:;" onsubmit="colorBoard()">
+			<div>
 				<label>Select Color</label>
 				<i class="fa fa-eyedropper" aria-hidden="true" id = "eyedropper"></i>
 				<input type = "color" id = "colorizer" value = "#0000ff">
-				<button>Color Entire Board</button>
-			</form>
+				<button onclick="colorBoard()">Color Entire Board</button>
+			</div>
 			<textarea id = "bitmap"></textarea>
 			<div class = "buttons">
-				<button onclick="generateHexCodes()">Generate hexcodes</button>
+				<button onclick="fillBitmap()">Generate hexcodes</button>
 				<button onclick="copy()">Copy to Clipboard</button>
 				<button onclick="load()">Load from Textarea</button>
 				<button onclick="toggleBorder()">Toggle Border</button>
-			</div>
+			</div> 
 		</div>
 	</body>
 </html>

@@ -4,9 +4,6 @@ html, body{
 	font-family: "Montserrat", "Avenir";
 }
 
-form {
-	margin: 10px;
-}
 .content {
 	max-width: 600px;
 	margin: 0 auto;
@@ -39,9 +36,9 @@ form {
 	border: 1px solid black;
 }
 
-.buttons button{
-	margin: 10px auto;
+.buttons button {
 	display: block;
+	margin: 10px auto;
 }
 
 #colorizer {
@@ -52,4 +49,4 @@ form {
 	height: 150px;
 	width: 75px;
 	resize: none;
-}
+} 

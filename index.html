@@ -3,6 +3,7 @@
 	<head>
 		<title>Sprite Generator</title>
 		<link rel="stylesheet" type="text/css" href="styles.css">
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 		<script
 		  src="https://code.jquery.com/jquery-3.2.1.min.js"
 		  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -17,14 +18,16 @@
 			<p>Just click on the board to color it with whatever color is currently selected</p>
 			<form action = "javascript:;" onsubmit="colorBoard()">
 				<label>Select Color</label>
+				<i class="fa fa-eyedropper" aria-hidden="true" id = "eyedropper"></i>
 				<input type = "color" id = "colorizer" value = "#0000ff">
 				<button>Color Entire Board</button>
 			</form>
-			<textarea readonly id = "bitmap"></textarea>
+			<textarea id = "bitmap"></textarea>
 			<form action = "javascript:;" onsubmit="generateHexCodes()">
 				<button>Generate hexcodes</button>
 			</form>
 			<button id = "copy">Copy to Clipboard</button>
+			<button id = "load">Load from Textarea</button>
 			<form action = "javascript:;" onsubmit="toggleBorder()">
 				<button>Toggle Border</button>
 			</form>

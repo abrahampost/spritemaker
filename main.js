@@ -1,7 +1,40 @@
 var isDown = false;
+selecting = false;
 
 $(function(){
 	generateGrid();
+	generateHexCodes();
+	var bitmap = $("#bitmap");
+	$("#copy").on("click",function(){
+    	bitmap.select();
+   		document.execCommand('copy');
+	});
+
+	$("#load").on("click", function(){
+		var bitmapValues = bitmap.val();
+		var hexcodes = bitmapValues.split("\n");
+		if(hexcodes.length != 256){ 
+			alert("Invalid number of lines. Found " + hexcodes.length + ", expected 256");
+			return;
+		}
+		var tiles = $(".tile");
+		for(var i = 0; i < tiles.length; i++){
+			var hexcode = "#";
+			if(hexcodes[i].length != 3){
+				alert("Invalid hexcode at line " + (i + 1));
+				return;
+			}
+			for(var j = 0; j < 3; j++){
+				hexcode += hexcodes[i][j];
+				hexcode += hexcodes[i][j];
+			}
+			$(tiles[i]).css("background-color", hexcode);
+		}
+	});
+	$("#eyedropper").on("click", function(){
+		selecting = true;
+	});
+
 });
 
 function generateGrid(){
@@ -26,8 +59,14 @@ function generateGrid(){
 	});
 
 	$(".tile").on("mousedown", function(){
+		if(selecting){
+			var color = colorToHex($(this).css("background-color"));
+			$("#colorizer").val(color);
+			selecting = false;
+			$(".tiles").css("cursor", "default")
+			return;
+		}
 		var color = $("#colorizer").val();
-		console.log(color);
 		$(this).css("background-color", color);
 	});
 
@@ -36,13 +75,9 @@ function generateGrid(){
 		if(isDown){
 			$(this).css("background-color", color);
 		}
-	});
-
-	$("#copy").on("click",function(){
-		$("#bitmap").readonly=false;
-    	$("#bitmap").select();
-   		document.execCommand('copy');
-   		$("#bitmap").readonly=true;
+		if(selecting){
+			$(".tiles").css("cursor", "crosshair");
+		}
 	});
 }
 
@@ -75,3 +110,15 @@ function convertFromRGB(color){
 function toggleBorder(){
 	$(".tile").toggleClass("border");
 }
+
+function colorToHex(color) {
+    var rgb = color.substring(4, color.length - 1).split(",").map(x => parseInt(x));
+    var hex = "#";
+    rgb.forEach(function(d){
+    	if(d < 16){
+    		hex += "0";
+    	}
+    	hex += d.toString(16);
+    })
+    return hex;
+};

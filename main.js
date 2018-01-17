@@ -2,7 +2,7 @@ var isDown = false;
 selecting = false;
 var bitmap;
 var hist = new Array();
-
+ 
 $(function() {
 	bitmap = $("#bitmap");
 	generateGrid();

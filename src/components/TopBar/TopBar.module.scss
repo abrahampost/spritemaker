@@ -1,0 +1,23 @@
+@import '../../styles/variables.scss';
+
+.TopBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    background: $secondary;
+    
+    button {
+        width: 100px;
+        padding: 16px;
+        color: white;
+        background: $secondary;
+        outline: none;
+        border: none;
+    }
+
+    button:hover {
+        background-color: $primary;
+    }
+}

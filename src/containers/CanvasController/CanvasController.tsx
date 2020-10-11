@@ -1,76 +1,60 @@
-import React, { SyntheticEvent, useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import classes from './CanvasController.module.scss';
 
 import { Canvas } from '../../components/Canvas/Canvas';
-import { Layer } from '../../domain/Layer';
-import { ToolContext } from '../../context/toolContext';
-import { RiContactsBookLine } from 'react-icons/ri';
+import { CanvasAction, CanvasContext, ToolType } from '../../context/canvasContext';
+
+const WIDTH = 16;
+const HEIGHT = 16;
 
 export const CanvasController = () => {
-    const { selectedToolId, activeColor, setActiveColor } = useContext(ToolContext);
+    const { state, dispatch } = useContext(CanvasContext);    
 
-    const [ width, setWidth ] = useState(16);
-    const [ height, setHeight ] = useState(16);
-    const [ border, setBorder ] = useState(true);
-    const [ layer, _ ] = useState(new Layer(width, height));
-    const [ cells, setCells ] = useState(layer.cells);
-    const [ draggedCells, setDraggedCells ] = useState<{x: number, y: number}[]>([]);
-
-    const [ unitDimensions, setUnitDimension ] = useState({x: 16, y: 16});
-
-    const handleDimensionChange = () => {
-        setUnitDimension({x: width, y: height});
+    const setCell = (x: number, y: number, color: string) => {
+        if (state.cells[y * WIDTH + x] === color) return;
+        dispatch({type: CanvasAction.SET_CELL, payload: { x, y, color: state.activeColor }});
     }
 
+    const _getCell = (x: number, y: number) => state.cells[y * WIDTH + x];
+
+    const pushHistory = () => dispatch({type: CanvasAction.ADD_HISTORY, payload: null});
+
     const mouseDownHandler = (x: number, y:number) => {
-        switch (selectedToolId) {
-            case (0): {
-                layer.setCell(x, y, activeColor);
-                setCells([...layer.cells]);
-                return;
+        pushHistory();
+        switch (state.selectedTool) {
+            case (ToolType.PAINT): {
+                setCell(x, y, state.activeColor);
+                break;
             }
-            case (1): {
-                layer.floodFill(x, y, activeColor);
-                setCells([...layer.cells]);
-                return;
+            case (ToolType.FILL): {
+                dispatch({type: CanvasAction.FLOOD_FILL, payload: { x, y, color: state.activeColor}});
+                break;
             }
-            case (3): {
-                const color = layer.getCell(x, y);
-                setActiveColor(color);
+            case (ToolType.SAMPLE): {
+                dispatch({ type: CanvasAction.SAMPLE_CELL, payload: {x, y}});
+                break;
             }
         }
     }
 
     const dragHandler = (x: number, y: number) => {
-        layer.setCell(x, y, activeColor);
-        if (!draggedCells.some(val => val.x === x && val.y === y)) {
-            setDraggedCells([...draggedCells, {x, y}]);
+        if (state.selectedTool === ToolType.PAINT) {
+            setCell(x, y, state.activeColor);
         }
-        setCells([...layer.cells]);
     }
 
     const mouseUpHandler = () => {
-        layer.setCells(draggedCells.map(cell => Object.assign(cell, {color: activeColor})));
-        setDraggedCells([]);
     }
 
     return (
         <div className={classes.CanvasController}>
             <Canvas 
-                widthUnits={unitDimensions.x}
-                heightUnits={unitDimensions.y}
-                cells={cells}
-                border={border}
+                widthUnits={WIDTH}
+                heightUnits={HEIGHT}
+                cells={state.cells}
                 mouseDown={mouseDownHandler}
                 mouseUp={mouseUpHandler}
                 drag={dragHandler}/>
-            <div className={classes.Buttons}>
-                <label>Width Units</label>
-                <input type="number" min="8" max="128" onChange={(e) => setWidth(+e.target.value)} value={width} />
-                <label>Height Units</label>
-                <input type="number" min="8" max="128" onChange={(e) => setHeight(+e.target.value)} value={height} />
-                <button onClick={handleDimensionChange}>Change</button>
-            </div>
         </div>
     )
 }

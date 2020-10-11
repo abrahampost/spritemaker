@@ -2,17 +2,17 @@ import React from 'react';
 import './App.scss';
 import { Layout } from './components/Layout/Layout';
 import { TopBar } from './components/TopBar/TopBar';
-import ToolProvider from './context/toolContext';
+import CanvasProvider from './context/canvasContext';
 
 function App() {
   return (
     <div>
-        <ToolProvider>
+        <CanvasProvider>
             <header>
                 <TopBar />
             </header>
             <Layout />
-        </ToolProvider>
+        </CanvasProvider>
     </div>
   );
 }

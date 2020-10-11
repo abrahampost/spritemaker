@@ -13,11 +13,9 @@ export const Layout = () => {
             <div className={classes.Main}>
                 <CanvasController />
                 <div className={classes.Frames}>
-                    <h2>Frames</h2>
                 </div>
             </div>
             <div className={classes.Layers}>
-                <h2>Layers</h2>
             </div>
         </div>
     )

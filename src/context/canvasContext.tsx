@@ -13,6 +13,8 @@ enum CanvasAction {
     EXPORT_FILE,
     SET_CELL,
     FLOOD_FILL,
+    SET_SELECTION,
+    FILL_SELECTION,
     SAMPLE_CELL,
     ADD_HISTORY,
     UNDO_HISTORY,
@@ -29,7 +31,8 @@ interface CanvasState {
     cells: string[];
     previousTool: ToolType | null;
     selectedTool: ToolType;
-    activeColor: string
+    activeColor: string;
+    selection: { x: number, y: number, width: number, height: number } | null
 }
 
 const defaultState: CanvasState = { 
@@ -40,7 +43,8 @@ const defaultState: CanvasState = {
     cells: [...Array(16* 16).fill('#ffffff')],
     previousTool: null,
     selectedTool: ToolType.PAINT,
-    activeColor: '#000000'
+    activeColor: '#000000',
+    selection: null
 };
 
 const CanvasContext = createContext({
@@ -52,7 +56,10 @@ const canvasReducer = (state: CanvasState, action: { type: CanvasAction, payload
     const { type, payload } = action;
     switch (type) {
         case (CanvasAction.NEW_FILE): {
-            return {...defaultState};
+            if(window.confirm("You will lose all unsaved changes if you do this. This is not undoable. Continue?")) {
+                return {...defaultState};
+            }
+            return state;
         }
         case (CanvasAction.EXPORT_FILE): {
             const link = document.createElement('a');
@@ -60,7 +67,6 @@ const canvasReducer = (state: CanvasState, action: { type: CanvasAction, payload
                 return cell.substring(1,2) + cell.substring(3,4) + cell.substring(5, 6);
             }).join('\n');
             link.href='data:,' + encodeURIComponent(data);
-            console.log(link.href);
             link.setAttribute('download', "my_save.dat");
             link.click();
             link.parentNode?.removeChild(link);
@@ -91,17 +97,27 @@ const canvasReducer = (state: CanvasState, action: { type: CanvasAction, payload
             const helper = (x: number, y: number, origColor: string, color: string) => {
                 if (x < 0 || x >= state.width || y < 0 || y >= state.height || state.cells[y * state.width + x] !== origColor || newCells[y * state.width + x] === color) return;
                 newCells[y * state.width + x] = color;
-                helper(x - 1, y + 1, origColor, color);
                 helper(x    , y + 1, origColor, color);
-                helper(x + 1, y + 1, origColor, color);
                 helper(x - 1, y    , origColor, color);
                 helper(x + 1, y    , origColor, color);
-                helper(x - 1, y - 1, origColor, color);
                 helper(x    , y - 1, origColor, color);
-                helper(x + 1, y - 1, origColor, color);
             }
             helper(x, y, origColor, color);
             return { ...state, cells: newCells }
+        }
+        case (CanvasAction.SET_SELECTION): {
+            return {...state, selection: payload};
+        }
+        case (CanvasAction.FILL_SELECTION): {
+            if (!state.selection) return state;
+            let newCells = [...state.cells];
+            for (let y = state.selection.y; y <= state.selection.y + state.selection.height; y++) {
+                for (let x = state.selection.x; x <= state.selection.x + state.selection.width; x++) {
+                    let cellNo = y * state.width + x;
+                    newCells[cellNo] = state.activeColor
+                }
+            }
+            return {...state, cells: newCells};
         }
         case (CanvasAction.ADD_HISTORY): {
             const newUndoStack = [...state.undoStack, [...state.cells]];

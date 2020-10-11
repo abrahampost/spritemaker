@@ -15,8 +15,6 @@ export const CanvasController = () => {
         dispatch({type: CanvasAction.SET_CELL, payload: { x, y, color: state.activeColor }});
     }
 
-    const _getCell = (x: number, y: number) => state.cells[y * WIDTH + x];
-
     const pushHistory = () => dispatch({type: CanvasAction.ADD_HISTORY, payload: null});
 
     const mouseDownHandler = (x: number, y:number) => {

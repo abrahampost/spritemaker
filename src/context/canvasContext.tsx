@@ -1,5 +1,4 @@
 import React, { createContext, useReducer } from 'react';
-import { Canvas } from '../components/Canvas/Canvas';
 
 enum ToolType {
     PAINT = 0,
@@ -9,6 +8,9 @@ enum ToolType {
 }
 
 enum CanvasAction {
+    NEW_FILE,
+    IMPORT_FILE,
+    EXPORT_FILE,
     SET_CELL,
     FLOOD_FILL,
     SAMPLE_CELL,
@@ -49,6 +51,32 @@ const CanvasContext = createContext({
 const canvasReducer = (state: CanvasState, action: { type: CanvasAction, payload: any}) => {
     const { type, payload } = action;
     switch (type) {
+        case (CanvasAction.NEW_FILE): {
+            return {...defaultState};
+        }
+        case (CanvasAction.EXPORT_FILE): {
+            const link = document.createElement('a');
+            const data = state.cells.map(cell => {
+                return cell.substring(1,2) + cell.substring(3,4) + cell.substring(5, 6);
+            }).join('\n');
+            link.href='data:,' + encodeURIComponent(data);
+            console.log(link.href);
+            link.setAttribute('download', "my_save.dat");
+            link.click();
+            link.parentNode?.removeChild(link);
+            return state;
+        }
+        case (CanvasAction.IMPORT_FILE): {
+            const splitLines = (payload as string)
+                                .split("\n");
+            if (splitLines.length !== state.width * state.height) {
+                alert(`Wrong number of lines: received ${splitLines.length}, expected: ${state.width * state.height}`);
+                return state;
+            }
+            const newCells = splitLines.map(line => ['#', line.charAt(0) + line.charAt(0) + line.charAt(1) + line.charAt(1) + line.charAt(2) + line.charAt(2)].join(''));
+            console.log(newCells);
+            return {...state, cells: newCells};
+        }
         case (CanvasAction.SET_CELL): {
             const { x, y, color } = payload;
             const newCells = [...state.cells];

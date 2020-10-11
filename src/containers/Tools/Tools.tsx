@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React, { SyntheticEvent, useCallback, useContext } from 'react';
 import classes from './Tools.module.scss';
 
-import classnames from 'classnames';
+import _ from 'lodash';
 import { ImEyedropper } from 'react-icons/im';
 import { BiShapeSquare } from 'react-icons/bi';
 import { FaPaintBrush, FaRedo, FaUndo } from 'react-icons/fa';
@@ -33,7 +33,18 @@ const Tool = ({ id, active, Icon, clicked }: { id: number, active: boolean, Icon
 
 export const Tools = () => {
     const { state, dispatch } = useContext(CanvasContext);
-    const handleColorChange = (color: any) => dispatch({ type: CanvasAction.CHANGE_COLOR, payload: color.target.value });
+    const handleColorChange = (e: SyntheticEvent) => {
+        e.persist();
+        debouncedHandleColorChange(e);
+    };
+    //Just a little bit of debouncing here reduces almost all lag when dragging
+    const debouncedHandleColorChange = useCallback(
+        _.throttle((e: SyntheticEvent) => {
+            dispatch({ type: CanvasAction.CHANGE_COLOR, payload: (e.target as any).value })
+        }, 50, { leading: true, trailing: false}),
+        []
+    );
+    
     const selectTool = (type: ToolType) => dispatch({ type: CanvasAction.SELECT_TOOL, payload: type });
     const toolItems = tools.map((tool, i) => <Tool id={i} active={state.selectedTool === i} Icon={tool.icon} key={i} clicked={() => selectTool(tool.type)} />)
 

@@ -2,7 +2,7 @@
   "name": "spritemaker",
   "version": "2.0.0",
   "private": true,
-  "homepage": "https://abrahampost.github.io/spritemaker*",
+  "homepage": "https://abrahampost.github.io/spritemaker",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",

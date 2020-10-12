@@ -65,7 +65,8 @@ export const TopBar = () => {
                     label="New File" 
                     onClick={() => dispatch({type: CanvasAction.NEW_FILE, payload: null})} />
                 <SubMenuFileBrowserItem dispatch={dispatch}/>
-                <SubMenuItem label="Export" onClick={() => {dispatch({type: CanvasAction.EXPORT_FILE, payload: null})}} />
+                <SubMenuItem label="Export as PNG" onClick={() => {dispatch({type: CanvasAction.EXPORT_FILE, payload: { fileType: 'png' }})}} />
+                <SubMenuItem label="Export as 541 BMP" onClick={() => {dispatch({type: CanvasAction.EXPORT_FILE, payload: { fileType: 'bmp'}})}} />
             </MenuItem>
             <MenuItem label="Edit" open={() => setOpenItem(2)} isOpen={openItem === 2}>
                 <SubMenuItem

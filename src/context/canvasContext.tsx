@@ -20,7 +20,8 @@ enum CanvasAction {
     UNDO_HISTORY,
     REDO_HISTORY,
     SELECT_TOOL,
-    CHANGE_COLOR
+    CHANGE_COLOR,
+    SET_PREVIEW_CANVAS
 }
 
 interface CanvasState {
@@ -32,7 +33,8 @@ interface CanvasState {
     previousTool: ToolType | null;
     selectedTool: ToolType;
     activeColor: string;
-    selection: { x: number, y: number, width: number, height: number } | null
+    selection: { x: number, y: number, width: number, height: number } | null,
+    previewCanvas: HTMLCanvasElement | null;
 }
 
 const defaultState: CanvasState = { 
@@ -44,7 +46,8 @@ const defaultState: CanvasState = {
     previousTool: null,
     selectedTool: ToolType.PAINT,
     activeColor: '#000000',
-    selection: null
+    selection: null,
+    previewCanvas: null
 };
 
 const CanvasContext = createContext({
@@ -62,12 +65,24 @@ const canvasReducer = (state: CanvasState, action: { type: CanvasAction, payload
             return state;
         }
         case (CanvasAction.EXPORT_FILE): {
+            const { fileType } = payload;
             const link = document.createElement('a');
-            const data = state.cells.map(cell => {
-                return cell.substring(1,2) + cell.substring(3,4) + cell.substring(5, 6);
-            }).join('\n');
-            link.href='data:,' + encodeURIComponent(data);
-            link.setAttribute('download', "my_save.dat");
+            let data;
+            if (fileType === 'png'){
+                data = state.previewCanvas?.toDataURL("image/png");
+                if (!data) {
+                    alert("Unable to convert ")
+                    return state;
+                }
+                link.href = data;
+                link.setAttribute('download', "my_save.png");
+            } else {
+                data = state.cells.map(cell => {
+                    return cell.substring(1,2) + cell.substring(3,4) + cell.substring(5, 6);
+                }).join('\n');
+                link.href='data:,' + encodeURIComponent(data);
+                link.setAttribute('download', "my_save.dat");
+            }
             link.click();
             link.parentNode?.removeChild(link);
             return state;
@@ -148,6 +163,9 @@ const canvasReducer = (state: CanvasState, action: { type: CanvasAction, payload
         }
         case (CanvasAction.CHANGE_COLOR): {
             return {...state, activeColor: payload}
+        }
+        case (CanvasAction.SET_PREVIEW_CANVAS): {
+            return { ...state, previewCanvas: payload };
         }
         default: {
             return state;

@@ -2,6 +2,7 @@ import React from 'react';
 import { Tools } from '../../containers/Tools/Tools';
 import classes from './Layout.module.css';
 import { CanvasController } from '../../containers/CanvasController/CanvasController';
+import { Preview } from '../Preview/Preview';
 
 export const Layout = () => {
     return (
@@ -9,6 +10,7 @@ export const Layout = () => {
 
             <div className={classes.Tools}>
                 <Tools />
+                <Preview />
             </div>
             <div className={classes.Main}>
                 <CanvasController />

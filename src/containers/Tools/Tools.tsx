@@ -41,7 +41,7 @@ export const Tools = () => {
     const debouncedHandleColorChange = useCallback(
         _.throttle((e: SyntheticEvent) => {
             dispatch({ type: CanvasAction.CHANGE_COLOR, payload: (e.target as any).value })
-        }, 50, { leading: true, trailing: false}),
+        }, 25, { leading: true, trailing: false}),
         []
     );
     

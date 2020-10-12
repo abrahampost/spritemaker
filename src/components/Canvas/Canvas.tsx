@@ -21,6 +21,15 @@ export const Canvas = ({mouseDown, mouseUp, drag}: { mouseDown: (x:number, y: nu
     }, [ canv ]);
 
     useEffect(() => {
+       const undoMouseDown = () => setMouseDown(false);
+       if (isMouseDown) {
+           document.addEventListener("click", undoMouseDown);
+       } else {
+           document.removeEventListener("click", undoMouseDown);
+       }
+    }, [ isMouseDown ])
+
+    useEffect(() => {
         if (state.width > state.height) {
             setDimensions({x: MAX_DIMENSION, y: Math.round((state.height / state.width) * MAX_DIMENSION)});
             setCellWidth(MAX_DIMENSION / state.width);

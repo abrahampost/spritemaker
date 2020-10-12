@@ -75,7 +75,7 @@ export const TopBar = () => {
                     disabled={state.undoStack.length === 0} />
                 <SubMenuItem
                     label="Redo"
-                    alt="ctrl + x"
+                    alt="ctrl + shift + z"
                     onClick={() => {dispatch({ type: CanvasAction.REDO_HISTORY, payload: null})}}
                     disabled={state.redoStack.length === 0} />
             </MenuItem>

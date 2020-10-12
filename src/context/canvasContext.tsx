@@ -80,7 +80,6 @@ const canvasReducer = (state: CanvasState, action: { type: CanvasAction, payload
                 return state;
             }
             const newCells = splitLines.map(line => ['#', line.charAt(0) + line.charAt(0) + line.charAt(1) + line.charAt(1) + line.charAt(2) + line.charAt(2)].join(''));
-            console.log(newCells);
             return {...state, cells: newCells};
         }
         case (CanvasAction.SET_CELL): {

@@ -1,13 +1,12 @@
 import React from 'react';
 import { Tools } from '../../containers/Tools/Tools';
-import classes from './Layout.module.css';
+import classes from './Layout.module.scss';
 import { CanvasController } from '../../containers/CanvasController/CanvasController';
 import { Preview } from '../Preview/Preview';
 
 export const Layout = () => {
     return (
         <div className={classes.Layout}>
-
             <div className={classes.Tools}>
                 <Tools />
                 <Preview />

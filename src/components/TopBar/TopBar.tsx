@@ -3,6 +3,7 @@ import React, { SyntheticEvent, useContext, useEffect, useState } from 'react';
 
 import classnames from 'classnames';
 import { CanvasAction, CanvasContext } from '../../context/canvasContext';
+import { ExportModal } from './ExportModal/ExportModal';
 
 const SubMenuFileBrowserItem = ({dispatch}: {dispatch: any}) => {
     const onFileChange = (e: SyntheticEvent) => { 
@@ -17,7 +18,7 @@ const SubMenuFileBrowserItem = ({dispatch}: {dispatch: any}) => {
     }
     return (
         <div className={classes.SubMenuFileBrowserItem}>
-            <input type="file" onChange={onFileChange} value=""></input>
+            <input type="file" accept=".bmp541,.dat" onChange={onFileChange} value=""></input>
             <label>Import</label>
         </div>
     )
@@ -44,9 +45,14 @@ const MenuItem = ({label, isOpen, open, children}: {label: string, isOpen: boole
 }
 
 export const TopBar = () => {
-    const [ openItem, setOpenItem ] = useState<number | null>(null);
     const { state, dispatch } = useContext(CanvasContext);
+    
+    const [ openItem, setOpenItem ] = useState<number | null>(null);
     const closeOpenItem = () => setOpenItem(null);
+
+    const [ showExport, setShowExport ] = useState(false);
+    const closeExport = () => setShowExport(false);
+    const openExport = () => setShowExport(true);
     useEffect(() => {
         
         if (openItem !== null) {
@@ -60,13 +66,13 @@ export const TopBar = () => {
 
     return (
         <div className={classes.TopBar}>
+            <ExportModal show={showExport} close={closeExport} />
             <MenuItem label="File" open={() => setOpenItem(1)}isOpen={openItem === 1}>
                 <SubMenuItem 
                     label="New File" 
                     onClick={() => dispatch({type: CanvasAction.NEW_FILE, payload: null})} />
                 <SubMenuFileBrowserItem dispatch={dispatch}/>
-                <SubMenuItem label="Export as PNG" onClick={() => {dispatch({type: CanvasAction.EXPORT_FILE, payload: { fileType: 'png' }})}} />
-                <SubMenuItem label="Export as 541 BMP" onClick={() => {dispatch({type: CanvasAction.EXPORT_FILE, payload: { fileType: 'bmp'}})}} />
+                <SubMenuItem label="Export" onClick={openExport} />
             </MenuItem>
             <MenuItem label="Edit" open={() => setOpenItem(2)} isOpen={openItem === 2}>
                 <SubMenuItem

@@ -65,7 +65,7 @@ const canvasReducer = (state: CanvasState, action: { type: CanvasAction, payload
             return state;
         }
         case (CanvasAction.EXPORT_FILE): {
-            const { fileType } = payload;
+            const { fileType, fileName } = payload;
             const link = document.createElement('a');
             let data;
             if (fileType === 'png'){
@@ -75,13 +75,13 @@ const canvasReducer = (state: CanvasState, action: { type: CanvasAction, payload
                     return state;
                 }
                 link.href = data;
-                link.setAttribute('download', "my_save.png");
+                link.setAttribute('download', fileName + '.png');
             } else {
                 data = state.cells.map(cell => {
                     return cell.substring(1,2) + cell.substring(3,4) + cell.substring(5, 6);
                 }).join('\n');
                 link.href='data:,' + encodeURIComponent(data);
-                link.setAttribute('download', "my_save.dat");
+                link.setAttribute('download', fileName + '.bmp541');
             }
             link.click();
             link.parentNode?.removeChild(link);

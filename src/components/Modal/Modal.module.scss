@@ -1,0 +1,47 @@
+@import '../../styles/variables.scss';
+
+.Backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    opacity: 0;
+    z-index: -1000;
+    transition: .5s opacity ease-in-out;
+    &.Show {
+        z-index: 100;
+        opacity: .5;
+    }
+}
+
+
+.Modal {
+    position: absolute;
+    min-width: 500px;
+    text-align: left;
+    left: calc(50% - 250px);
+    top: 10%;
+    z-index: 1000;
+    color: white;
+    transform: translateY(-500px);
+    transition: .5s transform ease-out;
+
+    .Title {
+        padding: 16px;
+        border-bottom: 1px solid $accent;
+        background-color: $dark;
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+
+    .Body {
+        padding: 16px;
+        background-color: $secondary;
+    }
+    
+    &.Show {
+        transform: translateY(0);
+    }
+}

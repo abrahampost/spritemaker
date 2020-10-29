@@ -1,0 +1,20 @@
+.Layout {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
+    .Tools {
+        max-width: 200px;
+    }
+    
+    .Main {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .Layers {
+        max-width: 200px;
+    }
+}
+
+

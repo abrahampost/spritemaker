@@ -7,13 +7,14 @@ export const InputManager = ({children}: {children: React.ReactNode}) => {
     const redoAction = () => dispatch({type: CanvasAction.REDO_HISTORY, payload: null});
 
     const keydown = (e: any) => {
-        e.preventDefault();
-
+        
         if (e.ctrlKey) {
             if(e.code === "KeyZ") {
                 if (e.shiftKey) {
+                    e.preventDefault();
                     redoAction();
                 } else {
+                    e.preventDefault();
                     undoAction();
                 }
             }
